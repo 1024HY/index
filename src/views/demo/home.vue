@@ -1,45 +1,44 @@
 <template>
   <div class="px-home">
     <div class="kong-kim-items">
-      <div
+      <!--      <div-->
+      <!--        v-for="(item, index) in items"-->
+      <!--        :key="index"-->
+      <!--        class="kong-kim"-->
+      <!--        @click="sub(item, index)"-->
+      <!--      >-->
+      <!--        <div-->
+      <!--          class="kong-kim-img"-->
+      <!--          :style="{-->
+      <!--            backgroundImage: `url(${item.backgroundImageUrl})`-->
+      <!--          }"-->
+      <!--        />-->
+      <!--        <p>{{ item.name }}</p>-->
+      <!--      </div>-->
+
+      <van-row
         v-for="(item, index) in items"
         :key="index"
+        span="8"
+        wrap
         class="kong-kim"
         @click="sub(item, index)"
       >
-        <div
+        <van-col
           class="kong-kim-img"
           :style="{
             backgroundImage: `url(${item.backgroundImageUrl})`
           }"
         />
-        <p>{{ item.name }}</p>
-      </div>
+        <span>{{ item.name }}</span>
+      </van-row>
     </div>
     <div class="scroller">
       <!--轮播图区-->
-      <!--      <swiper-->
-      <!--        class="swiper-content"-->
-      <!--        :modules="modules"-->
-      <!--        :centeredSlides="true"-->
-      <!--        :pagination="{ enabled: true }"-->
-      <!--        :loop="true"-->
-      <!--        :loopAdditionalSlides="1"-->
-      <!--      >-->
-      <!--        <swiper-slide-->
-      <!--          v-for="(item, index) in swiperItems"-->
-      <!--          :key="index"-->
-      <!--          class="swiper-content-item"-->
-      <!--          @click="goToSwiper(item, index)"-->
-      <!--        >-->
-      <!--          <img :src="item.backgroundImageUrl" alt="" />-->
-      <!--        </swiper-slide>-->
-      <!--      </swiper>-->
       <van-swipe
         class="swiper-content"
-        :autoplay="1000"
-        :width="430"
-        :loop="true"
+        :width="400"
+        :height="150"
         indicator-color="white"
       >
         <van-swipe-item
@@ -48,7 +47,7 @@
           class="swiper-content-item"
           @click="goToSwiper(item, index)"
         >
-          <img :src="item.backgroundImageUrl" alt="" />
+          <van-image :src="item.backgroundImageUrl" alt="" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -88,28 +87,10 @@ class Obj {
 import router from "@/router";
 
 import { ref, onMounted } from "vue";
-import { Autoplay, Navigation, Pagination, A11y } from "swiper/modules";
 
 import "vant/es/button/style/index";
 
-const modules = ref([Autoplay, Navigation, Pagination, A11y]);
-const swiperItems = ref([]);
-const value1 = ref(0);
-const value2 = ref("a");
-const option1 = ref([
-  { text: "全部商品", value: 0 },
-  { text: "新款商品", value: 1 },
-  { text: "活动商品", value: 2 }
-]);
-const option2 = ref([
-  { text: "默认排序", value: "a" },
-  { text: "好评排序", value: "b" },
-  { text: "销量排序", value: "c" }
-]);
-/**
- * 轮播图假数据区
- */
-const swiperItemsTest = [
+const swiperItems = ref([
   {
     id: 324,
     name: "轮播图1",
@@ -124,8 +105,25 @@ const swiperItemsTest = [
     id: 534,
     name: "轮播图3",
     backgroundImageUrl: "docs/assets/img/lbt/jqzygz.jpg"
+  },
+  {
+    id: 534,
+    name: "轮播图4",
+    backgroundImageUrl: "docs/assets/img/lbt/jqzygz.jpg"
   }
-];
+]);
+const value1 = ref(0);
+const value2 = ref("a");
+const option1 = ref([
+  { text: "全部商品", value: 0 },
+  { text: "新款商品", value: 1 },
+  { text: "活动商品", value: 2 }
+]);
+const option2 = ref([
+  { text: "默认排序", value: "a" },
+  { text: "好评排序", value: "b" },
+  { text: "销量排序", value: "c" }
+]);
 
 /**
  * 金刚区假数据
@@ -196,16 +194,6 @@ const sub = (it: Obj, index: number) => {
 };
 
 /**
- * 初始化轮播图
- */
-const initSwiper = () => {
-  for (let it of swiperItemsTest) {
-    swiperItems.value.push(it);
-  }
-  console.log("轮播图初始化完毕");
-};
-
-/**
  * 轮播图点击事件区域
  * @param it
  * @param index
@@ -213,13 +201,6 @@ const initSwiper = () => {
 const goToSwiper = (it: object, index: number) => {
   console.log(it, index);
 };
-
-/**
- * 初始化执行
- */
-onMounted(() => {
-  initSwiper();
-});
 </script>
 
 <style scoped>
@@ -237,9 +218,12 @@ onMounted(() => {
     width: calc(30% - 20px); /* 每行显示四个元素，减去间隔 */
     height: 5rem;
     margin: 12px 0 0 0; /* 设置元素间距 */
+    display: flex;
+    flex-direction: column; /* 垂直方向排列子元素 */
+    align-items: center; /* 水平方向居中对齐 */
     /*字体效果*/
 
-    p {
+    span {
       text-align: center; /* 文本居中对齐 */
       color: rgba(28, 28, 30, 0.75);
       font-size: 11px;
@@ -277,8 +261,6 @@ onMounted(() => {
   .swiper-content {
     height: 8rem;
     .swiper-content-item {
-      background-size: cover;
-      background-position: center;
       width: 100%;
       height: 100%;
       display: flex;
