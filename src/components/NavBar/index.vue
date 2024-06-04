@@ -1,28 +1,76 @@
 <template>
-  <div>
-    <!--这是一个 UI 组件库中的导航栏组件，通过设置 fixed 属性使导航栏固定在页面顶部，设置 placeholder 属性使导航栏占据页面布局空间，避免页面内容被导航栏遮挡。-->
-    <!--    <van-nav-bar fixed placeholder @click-right="onClickRight">-->
-    <!--      <template #right>-->
-    <!--        <svg-icon-->
-    <!--          class="text-[18px]"-->
-    <!--          :name="useDarkMode() ? 'light' : 'dark'"-->
-    <!--        />-->
-    <!--      </template>-->
-    <!--    </van-nav-bar>-->
-    <navBar :title="title" />
+  <div class="navbar">
+    <div class="navbar-left">
+      <!-- 左侧内容 -->
+      <slot name="left" />
+    </div>
+    <div class="navbar-title">
+      <!-- 标题 -->
+      <!--      {{ props.title }}-->
+      重庆职业培训
+    </div>
+    <div class="navbar-right">
+      <!-- 右侧内容 -->
+      <slot name="right" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// import { useDarkMode, useToggleDarkMode } from "@/hooks/useToggleDarkMode";
-import navBar from "@/components/NavBar/NavBar.vue";
-import { ref } from "vue";
-// 导航栏标题
-const title = ref("重庆职业培训管理学院");
+import { defineProps } from "vue";
 
-// const onClickRight = () => {
-//   useToggleDarkMode();
-// };
+const props = defineProps({
+  title: String // 标题
+});
 </script>
+<style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px; /* 导航栏高度 */
+  background-color: #0f62c4; /* 导航栏背景色 */
+  color: #cfdfed; /* 文字颜色 */
+  padding: 0 20px; /* 左右内边距 */
+}
 
-<style scoped></style>
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-title {
+  flex-grow: 1; /* 占据所有可用的中间空间 */
+  text-align: center; /* 文本居中对齐 */
+  font-size: 23px;
+  font-weight: bolder;
+  transform: skew(-5deg);
+  margin: 0 12rem 0 0;
+}
+</style>
+
+<!--<style scoped>-->
+<!--.navbar {-->
+<!--  display: flex;-->
+<!--  justify-content: space-between;-->
+<!--  align-items: center;-->
+<!--  height: 80px; /* 导航栏高度 */-->
+<!--  background-color: #0f62c4; /* 导航栏背景色 */-->
+<!--  color: #ffffff; /* 文字颜色 */-->
+<!--  padding: 0 20px; /* 左右内边距 */-->
+<!--}-->
+
+<!--.navbar-left,-->
+<!--.navbar-right {-->
+<!--  display: flex;-->
+<!--  align-items: center;-->
+<!--}-->
+
+<!--.navbar-title {-->
+<!--  font-size: 23px;-->
+<!--  font-weight: bolder;-->
+<!--  transform: skew(-5deg);-->
+<!--  margin: 0 12rem 0 0;-->
+<!--}-->
+<!--</style>-->

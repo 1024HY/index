@@ -1,4 +1,4 @@
-<script setup lang="ts" name="Demo">
+<script setup lang="ts">
 import { reactive } from "vue";
 
 const contentList = reactive([

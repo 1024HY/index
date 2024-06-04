@@ -4,6 +4,7 @@ import NavBar from "@/components/NavBar/index.vue";
 import { useCachedViewStoreHook } from "@/store/modules/cachedView";
 import { useDarkMode } from "@/hooks/useToggleDarkMode";
 import { computed } from "vue";
+import router from "@/router";
 
 const cachedViews = computed(() => {
   return useCachedViewStoreHook().cachedViewList;
@@ -13,7 +14,7 @@ const cachedViews = computed(() => {
 <template>
   <div class="app-wrapper">
     <van-config-provider :theme="useDarkMode() ? 'dark' : 'light'">
-      <nav-bar />
+      <nav-bar v-if="!router.currentRoute.value.meta.hideNavBar" />
       <router-view v-slot="{ Component }">
         <keep-alive :include="cachedViews">
           <component :is="Component" />
@@ -30,6 +31,7 @@ const cachedViews = computed(() => {
 .app-wrapper {
   .clearfix();
   position: relative;
+  background-color: #f3f4f5;
   height: 100%;
   width: 100%;
 }
