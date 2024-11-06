@@ -1,76 +1,38 @@
 <template>
-  <div class="navbar">
-    <div class="navbar-left">
-      <!-- 左侧内容 -->
-      <slot name="left" />
+  <div>
+<!--    <van-sticky @scroll="handleScroll">-->
+    <div class="van-nav-bar-nb" :style="{
+      position: 'relative',
+      // 渐变色
+      background: 'linear-gradient(35deg, #0F63C6 0%, #2299dd78 100%)',
+      height: '5.5rem'
+    }">
+      <van-image class="navbar-logo" src="docs/assets/img/jgq/header/logo.png" alt=""/>
     </div>
-    <div class="navbar-title">
-      <!-- 标题 -->
-      <!--      {{ props.title }}-->
-      重庆职业培训
-    </div>
-    <div class="navbar-right">
-      <!-- 右侧内容 -->
-      <slot name="right" />
-    </div>
+<!--    </van-sticky>-->
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
+import {onMounted, ref} from "vue";
+import router from "@/router";
+const navBarFlag = ref(router.currentRoute.value.meta.hideNavBar);
 
 const props = defineProps({
-  title: String // 标题
+  // 在滚动到多少像素时隐藏导航栏
+  scrollTop: Number
+});
+
+const handleScroll = (e: any) => {
+  navBarFlag.value = e.scrollTop > (null != props.scrollTop ? props.scrollTop : 300);
+};
+onMounted(() => {
+  console.log('navBarFlag', navBarFlag.value);
 });
 </script>
-<style scoped>
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px; /* 导航栏高度 */
-  background-color: #0f62c4; /* 导航栏背景色 */
-  color: #cfdfed; /* 文字颜色 */
-  padding: 0 20px; /* 左右内边距 */
-}
-
-.navbar-left,
-.navbar-right {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-title {
-  flex-grow: 1; /* 占据所有可用的中间空间 */
-  text-align: center; /* 文本居中对齐 */
-  font-size: 23px;
-  font-weight: bolder;
-  transform: skew(-5deg);
-  margin: 0 12rem 0 0;
+<style scoped lang="less">
+.navbar-logo {
+  margin: 2rem 0 0 0.8rem;
+  width: 14.5rem;
 }
 </style>
-
-<!--<style scoped>-->
-<!--.navbar {-->
-<!--  display: flex;-->
-<!--  justify-content: space-between;-->
-<!--  align-items: center;-->
-<!--  height: 80px; /* 导航栏高度 */-->
-<!--  background-color: #0f62c4; /* 导航栏背景色 */-->
-<!--  color: #ffffff; /* 文字颜色 */-->
-<!--  padding: 0 20px; /* 左右内边距 */-->
-<!--}-->
-
-<!--.navbar-left,-->
-<!--.navbar-right {-->
-<!--  display: flex;-->
-<!--  align-items: center;-->
-<!--}-->
-
-<!--.navbar-title {-->
-<!--  font-size: 23px;-->
-<!--  font-weight: bolder;-->
-<!--  transform: skew(-5deg);-->
-<!--  margin: 0 12rem 0 0;-->
-<!--}-->
-<!--</style>-->

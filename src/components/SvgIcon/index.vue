@@ -5,10 +5,13 @@ import { computed } from "vue";
 interface Props {
   name: string;
   className?: string;
+  type?: string; // 新增类型属性，用于区分 SVG 和 PNG
 }
+
 const props = withDefaults(defineProps<Props>(), {
   name: "",
-  className: ""
+  className: "",
+  type: "svg" // 默认类型为 SVG
 });
 
 const isExternalIcon = computed(() => isExternal(props.name));
@@ -20,7 +23,7 @@ const svgClass = computed(() => {
     return "svg-icon";
   }
 });
-// 外链 icon
+
 const styleExternalIcon = computed(() => {
   return {
     mask: `url(${props.name}) no-repeat 50% 50%`,
@@ -30,11 +33,14 @@ const styleExternalIcon = computed(() => {
 </script>
 
 <template>
+  <div v-if="props.type === 'png'" :class="svgClass" v-bind="$attrs">
+    <img :src="props.name" :class="svgClass" alt="icon" />
+  </div>
   <div
-    v-if="isExternalIcon"
-    :style="styleExternalIcon"
-    class="svg-external-icon svg-icon"
-    v-bind="$attrs"
+      v-else-if="isExternalIcon"
+      :style="styleExternalIcon"
+      class="svg-external-icon svg-icon"
+      v-bind="$attrs"
   />
   <svg v-else :class="svgClass" aria-hidden="true" v-bind="$attrs">
     <use :xlink:href="iconName" />
